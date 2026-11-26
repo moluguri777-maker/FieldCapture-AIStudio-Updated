@@ -408,21 +408,24 @@ The following assumptions were made where the assignment requirements did not sp
 
 ---
 
-## 13. AI Coding Tools and Disclosure
+## 13. Development Tools and AI Assistance
 
-AI coding assistance was used throughout development.
+The project was developed using modern Android development tools and AI-assisted workflows.
 
-| Tool | Usage |
-|---|---|
-| Google AI Studio (Gemini) | Android project development, code generation, debugging, Firebase/App Check changes and unit-test assistance |
-| ChatGPT | Architecture discussions, code review, debugging guidance, implementation planning and README/documentation preparation |
-| Android Studio | Local development, Gradle builds, emulator execution and debugging |
+**Development Environment**
+- Android Studio — Android application development, debugging, emulator testing and Gradle builds.
+- Kotlin and Jetpack Compose — Application implementation and user interface.
+- Git and GitHub — Version control and source-code management.
 
-AI assistance was used for implementation and debugging. The resulting application was built and launched locally in Android Studio.
+**AI-Assisted Development**
+- Google AI Studio and Gemini — Assisted with code exploration, implementation, debugging and test-case development.
+- ChatGPT — Used for technical discussions, troubleshooting, code reviews, architecture guidance and documentation.
 
-The AI extraction model used inside the application is Gemini 3.8 Flash through Firebase AI Logic. This is separate from the AI coding tools used during development.
+**AI Integration Within the Application**
 
----
+Gemini 3.8 Flash is integrated through Firebase AI Logic for multimodal evidence extraction and structured field-inspection data processing.
+
+AI-assisted development tools and the AI model integrated into the application serve different purposes.
 
 ## 14. Future Improvements
 
