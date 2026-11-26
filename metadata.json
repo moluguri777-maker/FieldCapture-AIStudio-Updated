@@ -1,0 +1,6 @@
+{
+  "name": "FieldCapture",
+  "description": "Hands-free property insurance and HVAC/electrical field inspection app using Meta Wearables DAT 1.0 SDK, Mock Device Kit, on-device image quality gates, Gemini multimodal extraction, and offline-first Room sync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

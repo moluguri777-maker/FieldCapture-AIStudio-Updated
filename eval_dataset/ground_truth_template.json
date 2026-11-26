@@ -1,0 +1,36 @@
+{
+  "datasetStatus": "TEMPLATE_ONLY_REAL_FIELD_COLLECTION_PENDING",
+  "requirements": {
+    "minimumTotalFrames": 40,
+    "minimumNameplates": 10,
+    "minimumLowLightFrames": 10
+  },
+  "instructions": "Replace these example entries with verified labels from real field inspection photos before computing final real-world per-field accuracy via EvalGroundTruthEvaluator.",
+  "samples": [
+    {
+      "sampleId": "SAMPLE-NP-01",
+      "imageFileName": "replace_with_real_nameplate_01.jpg",
+      "commandType": "NAMEPLATE",
+      "isLowLight": false,
+      "expectedFields": {
+        "equipmentType": "HVAC Condenser",
+        "manufacturer": "Carrier",
+        "modelNumber": "REPLACE_WITH_VERIFIED_MODEL",
+        "serialNumber": "REPLACE_WITH_VERIFIED_SERIAL",
+        "manufactureDate": "REPLACE_WITH_VERIFIED_DATE"
+      }
+    },
+    {
+      "sampleId": "SAMPLE-DMG-01",
+      "imageFileName": "replace_with_real_lowlight_damage_01.jpg",
+      "commandType": "DAMAGE",
+      "isLowLight": true,
+      "expectedFields": {
+        "room": "Basement",
+        "surface": "Drywall",
+        "damageType": "Water stain",
+        "estimatedAreaSqFt": "REPLACE_WITH_MEASURED_AREA"
+      }
+    }
+  ]
+}

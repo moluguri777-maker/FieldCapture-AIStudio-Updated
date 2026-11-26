@@ -1,0 +1,116 @@
+{
+  "_templateNotice": "EXAMPLE SCHEMA TEMPLATE ONLY (NOT a real physical walkthrough recording). Replace with app-exported JSON after live session capture.",
+  "schemaVersion": "1.0",
+  "jobId": "JOB-2026-4082",
+  "claimNumber": "CLM-PROP-88412",
+  "propertyAddress": "1420 Oakridge Ave, Austin TX 78704",
+  "inspectorName": "Alex Mercer (Field Adj.)",
+  "createdAtEpochMs": 1764096000000,
+  "sessionSummary": {
+    "totalCaptures": 2,
+    "disconnectsRecovered": 0,
+    "avgQualityPassRate": 1.0
+  },
+  "captures": [
+    {
+      "captureId": "CAP-TEMPLATE-NP01",
+      "commandType": "NAMEPLATE",
+      "timestampEpochMs": 1764096030000,
+      "rawVoiceTranscript": "capture nameplate",
+      "room": null,
+      "surface": null,
+      "evidenceSource": "MOCK_DEVICE_KIT_SCENE",
+      "isMockOrSample": true,
+      "remoteMediaUrl": null,
+      "qualityCheck": {
+        "passed": true,
+        "blurScore": 1420.5,
+        "brightnessScore": 132.4,
+        "framingScore": 0.78,
+        "darkPixelRatio": 0.02,
+        "clippedPixelRatio": 0.01,
+        "issues": [],
+        "summaryMessage": "PASS • Sharpness 1420 • Luma 132 • Framing 78%",
+        "latencyMs": 14,
+        "userOverridden": false
+      },
+      "extractedFields": {
+        "equipmentType": { "value": "HVAC Condenser", "confidence": 0.95, "needsReview": false, "editedByUser": false },
+        "manufacturer": { "value": "Carrier", "confidence": 0.97, "needsReview": false, "editedByUser": false },
+        "modelNumber": { "value": "24ACC636A003", "confidence": 0.94, "needsReview": false, "editedByUser": false },
+        "serialNumber": { "value": "3121E48291", "confidence": 0.91, "needsReview": false, "editedByUser": false },
+        "manufactureDate": { "value": "2021", "confidence": 0.84, "needsReview": false, "editedByUser": false },
+        "voltagePhase": { "value": "208-230V 1PH 60HZ", "confidence": 0.92, "needsReview": false, "editedByUser": false },
+        "amperageOrBtu": { "value": "35A", "confidence": 0.81, "needsReview": false, "editedByUser": false },
+        "refrigerantType": { "value": "R-410A", "confidence": 0.96, "needsReview": false, "editedByUser": false }
+      },
+      "overallConfidence": 0.9125,
+      "estimateCodes": ["HVC-CMP-10", "HVC-COI-11"]
+    },
+    {
+      "captureId": "CAP-TEMPLATE-NT01",
+      "commandType": "NOTE",
+      "timestampEpochMs": 1764096090000,
+      "rawVoiceTranscript": "note: Condenser suction line insulation degraded near service valve",
+      "room": null,
+      "surface": null,
+      "evidenceSource": "VOICE_NOTE_ONLY",
+      "isMockOrSample": false,
+      "remoteMediaUrl": null,
+      "qualityCheck": {
+        "passed": true,
+        "blurScore": 100.0,
+        "brightnessScore": 128.0,
+        "framingScore": 1.0,
+        "darkPixelRatio": 0.0,
+        "clippedPixelRatio": 0.0,
+        "issues": [],
+        "summaryMessage": "Voice Note (audio-only)",
+        "latencyMs": 1,
+        "userOverridden": false
+      },
+      "extractedFields": {
+        "summary": { "value": "Degraded suction line insulation at outdoor condenser service valve.", "confidence": 0.93, "needsReview": false, "editedByUser": false },
+        "category": { "value": "HVAC", "confidence": 0.96, "needsReview": false, "editedByUser": false },
+        "safetyHazard": { "value": "false - minor refrigerant efficiency loss", "confidence": 0.89, "needsReview": false, "editedByUser": false },
+        "followUpRequired": { "value": "Re-insulate suction line and check subcooling", "confidence": 0.88, "needsReview": false, "editedByUser": false },
+        "referencedComponents": { "value": "Suction line, service valve, condenser", "confidence": 0.91, "needsReview": false, "editedByUser": false }
+      },
+      "overallConfidence": 0.914,
+      "estimateCodes": ["HVC-COI-11"]
+    }
+  ],
+  "estimateLineItems": [
+    {
+      "code": "HVC-CMP-10",
+      "trade": "HVAC",
+      "description": "Condenser / Compressor Diagnostics & Unit Service",
+      "unit": "ea",
+      "quantity": 1.0,
+      "unitRateUsd": 1250.0,
+      "extendedUsd": 1250.0,
+      "confidence": 0.9125,
+      "sourceCaptureId": "CAP-TEMPLATE-NP01"
+    },
+    {
+      "code": "HVC-COI-11",
+      "trade": "HVAC",
+      "description": "Evaporator Coil Cleaning & Refrigerant Leak Service",
+      "unit": "ea",
+      "quantity": 1.0,
+      "unitRateUsd": 540.0,
+      "extendedUsd": 540.0,
+      "confidence": 0.9125,
+      "sourceCaptureId": "CAP-TEMPLATE-NP01"
+    }
+  ],
+  "telemetrySummary": {
+    "totalRequests": 0,
+    "avgQualityLatencyMs": 0,
+    "avgAiLatencyMs": 0,
+    "avgSyncLatencyMs": 0,
+    "totalPromptTokens": 0,
+    "totalOutputTokens": 0,
+    "totalEstimatedCostUsd": 0.0
+  }
+}

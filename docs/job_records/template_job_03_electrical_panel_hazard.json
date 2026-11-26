@@ -1,0 +1,115 @@
+{
+  "_templateNotice": "EXAMPLE SCHEMA TEMPLATE ONLY (NOT a real physical walkthrough recording). Replace with app-exported JSON after live session capture.",
+  "schemaVersion": "1.0",
+  "jobId": "JOB-2026-4105",
+  "claimNumber": "CLM-PROP-88430",
+  "propertyAddress": "908 Barton Springs Blvd, Austin TX 78704",
+  "inspectorName": "Alex Mercer (Field Adj.)",
+  "createdAtEpochMs": 1764103200000,
+  "sessionSummary": {
+    "totalCaptures": 2,
+    "disconnectsRecovered": 0,
+    "avgQualityPassRate": 1.0
+  },
+  "captures": [
+    {
+      "captureId": "CAP-TEMPLATE-ELC01",
+      "commandType": "DAMAGE",
+      "timestampEpochMs": 1764103220000,
+      "rawVoiceTranscript": "capture damage utility panel",
+      "room": "Utility",
+      "surface": "Panel",
+      "evidenceSource": "MOCK_DEVICE_KIT_SCENE",
+      "isMockOrSample": true,
+      "remoteMediaUrl": null,
+      "qualityCheck": {
+        "passed": true,
+        "blurScore": 1180.0,
+        "brightnessScore": 122.0,
+        "framingScore": 0.81,
+        "darkPixelRatio": 0.04,
+        "clippedPixelRatio": 0.01,
+        "issues": [],
+        "summaryMessage": "PASS • Sharpness 1180 • Luma 122 • Framing 81%",
+        "latencyMs": 15,
+        "userOverridden": false
+      },
+      "extractedFields": {
+        "room": { "value": "Utility", "confidence": 0.95, "needsReview": false, "editedByUser": false },
+        "surface": { "value": "Main Breaker Panel", "confidence": 0.93, "needsReview": false, "editedByUser": false },
+        "damageType": { "value": "Thermal scorch at main lug", "confidence": 0.90, "needsReview": false, "editedByUser": false },
+        "severity": { "value": "SEVERE", "confidence": 0.92, "needsReview": false, "editedByUser": false },
+        "estimatedAreaSqFt": { "value": "1 panel assembly", "confidence": 0.84, "needsReview": false, "editedByUser": false },
+        "moistureOrThermalRisk": { "value": "High electrical arc/fire hazard at bus lug", "confidence": 0.94, "needsReview": false, "editedByUser": false },
+        "recommendedAction": { "value": "Isolate utility main and dispatch licensed master electrician", "confidence": 0.93, "needsReview": false, "editedByUser": false }
+      },
+      "overallConfidence": 0.9157,
+      "estimateCodes": ["ELC-PNL-08", "GEN-SAF-14"]
+    },
+    {
+      "captureId": "CAP-TEMPLATE-NT02",
+      "commandType": "NOTE",
+      "timestampEpochMs": 1764103260000,
+      "rawVoiceTranscript": "note: Utility shutoff tagged out pending electrician panel replacement",
+      "room": null,
+      "surface": null,
+      "evidenceSource": "VOICE_NOTE_ONLY",
+      "isMockOrSample": false,
+      "remoteMediaUrl": null,
+      "qualityCheck": {
+        "passed": true,
+        "blurScore": 100.0,
+        "brightnessScore": 128.0,
+        "framingScore": 1.0,
+        "darkPixelRatio": 0.0,
+        "clippedPixelRatio": 0.0,
+        "issues": [],
+        "summaryMessage": "Voice Note (audio-only)",
+        "latencyMs": 1,
+        "userOverridden": false
+      },
+      "extractedFields": {
+        "summary": { "value": "Utility main isolated and tagged out pending breaker panel replacement.", "confidence": 0.94, "needsReview": false, "editedByUser": false },
+        "category": { "value": "Safety", "confidence": 0.91, "needsReview": false, "editedByUser": false },
+        "safetyHazard": { "value": "true - energized panel thermal fault locked out", "confidence": 0.95, "needsReview": false, "editedByUser": false },
+        "followUpRequired": { "value": "Licensed electrician inspection prior to re-energizing", "confidence": 0.93, "needsReview": false, "editedByUser": false },
+        "referencedComponents": { "value": "Main breaker panel, utility shutoff", "confidence": 0.90, "needsReview": false, "editedByUser": false }
+      },
+      "overallConfidence": 0.926,
+      "estimateCodes": ["GEN-SAF-14"]
+    }
+  ],
+  "estimateLineItems": [
+    {
+      "code": "ELC-PNL-08",
+      "trade": "Electrical",
+      "description": "Main Service Panel Inspection & Breaker Replacement",
+      "unit": "ea",
+      "quantity": 1.0,
+      "unitRateUsd": 685.0,
+      "extendedUsd": 685.0,
+      "confidence": 0.9157,
+      "sourceCaptureId": "CAP-TEMPLATE-ELC01"
+    },
+    {
+      "code": "GEN-SAF-14",
+      "trade": "General Safety",
+      "description": "Emergency Make-Safe & Utility Isolation",
+      "unit": "hr",
+      "quantity": 2.0,
+      "unitRateUsd": 165.0,
+      "extendedUsd": 330.0,
+      "confidence": 0.9157,
+      "sourceCaptureId": "CAP-TEMPLATE-ELC01"
+    }
+  ],
+  "telemetrySummary": {
+    "totalRequests": 0,
+    "avgQualityLatencyMs": 0,
+    "avgAiLatencyMs": 0,
+    "avgSyncLatencyMs": 0,
+    "totalPromptTokens": 0,
+    "totalOutputTokens": 0,
+    "totalEstimatedCostUsd": 0.0
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FieldCapture JobRecordJson v1.0",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "jobId",
+    "claimNumber",
+    "propertyAddress",
+    "inspectorName",
+    "createdAtEpochMs",
+    "sessionSummary",
+    "captures",
+    "estimateLineItems",
+    "telemetrySummary"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0" },
+    "jobId": { "type": "string" },
+    "claimNumber": { "type": "string" },
+    "propertyAddress": { "type": "string" },
+    "inspectorName": { "type": "string" },
+    "createdAtEpochMs": { "type": "integer" },
+    "sessionSummary": {
+      "type": "object",
+      "required": ["totalCaptures", "disconnectsRecovered", "avgQualityPassRate"],
+      "properties": {
+        "totalCaptures": { "type": "integer", "minimum": 0 },
+        "disconnectsRecovered": { "type": "integer", "minimum": 0 },
+        "avgQualityPassRate": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "captures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "captureId",
+          "commandType",
+          "timestampEpochMs",
+          "rawVoiceTranscript",
+          "evidenceSource",
+          "isMockOrSample",
+          "qualityCheck",
+          "extractedFields",
+          "overallConfidence",
+          "estimateCodes"
+        ],
+        "properties": {
+          "captureId": { "type": "string" },
+          "commandType": { "enum": ["NAMEPLATE", "DAMAGE", "NOTE"] },
+          "timestampEpochMs": { "type": "integer" },
+          "rawVoiceTranscript": { "type": "string" },
+          "room": { "type": ["string", "null"] },
+          "surface": { "type": ["string", "null"] },
+          "evidenceSource": {
+            "enum": [
+              "MOCK_DEVICE_KIT_SCENE",
+              "ANDROID_REAR_CAMERA_MOCK",
+              "META_DAT_GLASSES_CAMERA",
+              "PHOTO_PICKER_IMPORT",
+              "VOICE_NOTE_ONLY",
+              "UNKNOWN"
+            ]
+          },
+          "isMockOrSample": { "type": "boolean" },
+          "remoteMediaUrl": { "type": ["string", "null"] },
+          "overallConfidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "estimateCodes": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "estimateLineItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "trade", "description", "unit", "quantity", "unitRateUsd", "extendedUsd", "confidence", "sourceCaptureId"]
+      }
+    },
+    "telemetrySummary": {
+      "type": "object",
+      "required": ["totalRequests", "avgQualityLatencyMs", "avgAiLatencyMs", "avgSyncLatencyMs", "totalPromptTokens", "totalOutputTokens", "totalEstimatedCostUsd"]
+    }
+  }
+}

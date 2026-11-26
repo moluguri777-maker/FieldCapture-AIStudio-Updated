@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">FieldCapture</string>
+    <string name="nav_capture">Capture</string>
+    <string name="nav_job">Job &amp; Est</string>
+    <string name="nav_sync">Sync Queue</string>
+    <string name="nav_eval">Eval &amp; Cost</string>
+    <string name="glasses_connect_mock">Pair Mock Glasses</string>
+    <string name="session_start">Start</string>
+    <string name="session_pause">Pause</string>
+    <string name="session_resume">Resume</string>
+    <string name="session_stop">Stop</string>
+    <string name="simulate_disconnect">Sim Drop</string>
+    <string name="voice_listen">Voice Cmd</string>
+    <string name="voice_stop">Listening…</string>
+    <string name="quality_override">Override &amp; Keep</string>
+    <string name="quality_retake">Discard &amp; Retake</string>
+    <string name="sync_now">Sync Now</string>
+    <string name="run_eval_40">Run 40-Frame Eval</string>
+    <string name="import_frames">Import Photos</string>
+</resources>
