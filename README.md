@@ -1,169 +1,199 @@
 # FieldCapture — Hands-Free Field Capture on AI Glasses
 
-FieldCapture is an offline-first Android field inspection application built with Kotlin and Jetpack Compose for hands-free field evidence collection using Meta Wearables Device Access Toolkit (DAT 1.0.1).
+FieldCapture is an offline-first Android field-inspection application built using Kotlin and Jetpack Compose. It is designed for hands-free property, HVAC, and electrical inspections using Ray-Ban Meta AI Glasses through the Meta Wearables Device Access Toolkit (DAT 1.0.1).
 
-The application combines voice-command input, image-quality validation, structured evidence records, AI-assisted extraction using Gemini through Firebase AI Logic, a local Room database, and a WorkManager-based synchronization queue.
+The application brings together voice-command workflows, image-quality validation, structured evidence capture, AI-assisted extraction, local persistence, synchronization infrastructure, and evaluation telemetry.
 
-The project includes a Mock Device Kit workflow for development and testing without requiring physical Ray-Ban Meta glasses.
-
-> **Implementation status:** The Android application builds and launches successfully. Evidence capture, image-quality indicators, job records, and the synchronization queue are demonstrated in the current build. AI extraction and some end-to-end integrations have known limitations documented below.
+The project includes a Mock Device Kit workflow for development and emulator-based testing.
 
 ---
 
 ## 1. Architecture Overview
 
 ```text
-Voice Input / Quick Commands
-             |
-             v
+Voice Commands / Quick Commands
+              |
+              v
      VoiceCommandParser
-             |
-             v
-     WearableSessionGateway
-       (DAT 1.0.1 / Mock Kit)
-             |
-             v
-       Evidence Capture
-             |
-             v
-      ImageQualityAnalyzer
-       (Blur / Luma / Framing)
-             |
-             v
-      Duplicate SHA-256 Check
-             |
-             v
-          Room DB
-             |
-       +-----+------+
-       |            |
-       v            v
-GeminiExtraction   SyncOutbox
-Service             Entity
-       |            |
-       v            v
-Structured       WorkManager
-Extraction        SyncWorker
-       |            |
-       v            v
-14-Code         REST API /
-Estimate        Loopback Mock
-Catalog         Server
+     (VoiceCommandSpec Registry)
+              |
+              v
+   WearableSessionGateway
+   (DAT 1.0.1 + Mock Device Kit)
+              |
+              v
+     ImageQualityAnalyzer
+     (Blur / Brightness / Framing)
+              |
+       +------+------+
+       |             |
+      FAIL          PASS
+       |             |
+       v             v
+   Retake Alert   Duplicate SHA-256 Check
+                     |
+                     v
+                 Room Database
+                     |
+          +----------+----------+
+          |                     |
+          v                     v
+  GeminiExtractionService   SyncOutboxEntity
+  (Firebase AI Logic)       (Upload / Sync)
+          |                     |
+          v                     v
+  Structured Extraction    WorkManager
+  Confidence Scoring       SyncWorker
+          |                     |
+          v                     v
+  Estimate Code Matcher    REST API Layer
 ```
 
-### Core Packages
+### Core packages
 
 Located under `app/src/main/java/com/example/`:
 
-| Package | Responsibility |
-|---|---|
-| `ai/` | Firebase App Check initialization and Gemini extraction |
-| `wearable/` | Wearable session lifecycle, DAT integration and mock scenes |
-| `cv/` | On-device image-quality analysis |
-| `voice/` | Speech input and extensible voice-command parsing |
-| `data/` | Room database, REST API, repositories and synchronization |
-| `domain/model/` | Evidence models, job records and estimate-code catalog |
-| `eval/` | Batch evaluation engine and ground-truth evaluation |
-| `ui/` | Jetpack Compose screens and application state management |
+- `ai/` — App Check initialization and Gemini extraction service.
+- `wearable/` — Wearable session gateway and mock scene media generation.
+- `cv/` — Image-quality analysis, including blur, brightness, and framing checks.
+- `voice/` — Voice-command parser and voice-input controller.
+- `data/` — Room database, REST API, repository, and synchronization worker.
+- `domain/model/` — Inspection models, evidence provenance, and estimate-code catalog.
+- `eval/` — Batch evaluation engine and ground-truth evaluator.
+- `ui/` — Jetpack Compose screens and application ViewModel.
 
-### Main Screens
+### Main application screens
 
-- Capture
+- Capture Deck
 - Job & Estimate
 - Sync Queue
-- Evaluation & Cost
+- Evaluation & Cost Telemetry
 
 ---
 
 ## 2. Technology Stack
 
-| Component | Technology |
+| Category | Technologies |
 |---|---|
 | Language | Kotlin |
 | UI | Jetpack Compose, Material 3 |
-| Android Architecture | MVVM |
-| Local Database | Room |
-| Background Processing | WorkManager |
-| Networking | Retrofit / OkHttp |
-| Wearable Integration | Meta Wearables DAT 1.0.1 |
-| Speech Input | Android SpeechRecognizer |
-| Image Quality | On-device Computer Vision |
-| AI Model | Gemini 3.8 Flash |
-| AI Integration | Firebase AI Logic |
-| AI Security | Firebase App Check |
-| Build System | Gradle |
+| Android architecture | ViewModel, Repository |
+| Wearable integration | Meta Wearables Device Access Toolkit 1.0.1 |
+| Development simulation | Mock Device Kit |
+| Local database | Room |
+| Background processing | WorkManager |
+| Networking | Retrofit, OkHttp |
+| AI integration | Firebase AI Logic, Gemini 3.8 Flash |
+| App security | Firebase App Check |
+| Image processing | On-device computer vision |
+| Testing | JUnit, Robolectric test infrastructure |
+| Build system | Gradle |
 
 ---
 
 ## 3. Prerequisites
 
-- Android Studio with JDK 17 or newer.
+- Android Studio (Meerkat, Narwhal, or newer).
+- JDK 17 or later.
 - Android SDK 36.
-- Android emulator or Android device (API 29+).
-- Internet access for Firebase and Gemini requests.
-- Firebase project configured for Firebase AI Logic and App Check.
+- Android Emulator or Android device with API 29 or later.
+- Internet connectivity for Firebase App Check and Gemini requests.
 
-**Android application ID:**
+### Firebase configuration
 
-`com.aistudio.fieldcapture.krmxvp`
+The project is configured with the following Firebase application:
 
-### Firebase Configuration
+- Firebase Project ID: `gen-lang-client-0675019109`
+- Android Package: `com.aistudio.fieldcapture.krmxvp`
+- Firebase App ID: `1:710382825344:android:217d80d8206c797f415b65`
 
-The Firebase configuration file is intentionally excluded from version control.
+The application uses Firebase AI Logic and Firebase App Check.
 
-To configure Firebase locally:
+No manually embedded Gemini API key is required.
 
-1. Obtain the Android `google-services.json` file from the configured Firebase project.
-2. Place it inside the `app/` directory.
-3. Ensure the Google Services Gradle plugin is configured.
-4. Sync the project with Gradle files.
+**Configuration note:** The `google-services.json` file must be obtained from the authorized Firebase project and placed inside the `app/` directory. It is intentionally excluded from Git version control.
 
-Do not commit Firebase configuration files, App Check debug tokens, or other local secrets to the repository.
+### Firebase App Check
 
-### App Check Debug Configuration
-
-For local debug builds:
+For local development:
 
 1. Launch the application.
-2. Inspect Logcat for the Firebase App Check debug provider.
-3. Obtain the generated debug token.
-4. Register the token in Firebase Console → App Check → Manage debug tokens.
-5. Relaunch the application and verify token initialization.
+2. Open Android Studio Logcat.
+3. Filter for `DebugAppCheckProvider`.
+4. Retrieve the generated debug token.
+5. Register the token in Firebase Console → App Check → Apps → Manage debug tokens.
 
-Release builds are configured to use the reCAPTCHA App Check provider.
-
----
-
-## 4. Setup and Run
-
-1. Clone the repository.
-2. Open the repository root in Android Studio.
-3. Configure `google-services.json` locally as described above.
-4. Allow Gradle synchronization to finish.
-5. Select an Android emulator or connected device.
-6. Run the `app` configuration.
-
-### Build Commands
-
-Build the debug APK:
-
-```bash
-gradle :app:assembleDebug
-```
-
-Run JVM unit tests:
-
-```bash
-gradle :app:testDebugUnitTest
-```
+The application includes App Check initialization and token handling for Firebase requests.
 
 ---
 
-## 5. Capture Workflow and Voice Commands
+## 4. Setup and Running the Application
 
-The Capture screen provides a field-inspection interface with a camera preview, session controls, voice input and quick-command buttons.
+### Step 1: Clone the repository
 
-### Supported Command Formats
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+```
+
+### Step 2: Open the project
+
+Open the cloned project root in Android Studio and allow Gradle synchronization to complete.
+
+### Step 3: Configure Firebase
+
+Place the authorized `google-services.json` file in:
+
+```text
+app/google-services.json
+```
+
+Ensure the Firebase configuration and App Check settings are correctly configured.
+
+### Step 4: Build the application
+
+On Windows PowerShell:
+
+```powershell
+.\gradlew.bat :app:assembleDebug
+```
+
+### Step 5: Run the application
+
+Select an Android Emulator or connected Android device in Android Studio and press Run.
+
+Alternatively, launch the installed application using ADB:
+
+```powershell
+adb shell monkey -p com.aistudio.fieldcapture.krmxvp 1
+```
+
+---
+
+## 5. Mock Device Kit and Capture Workflow
+
+The application includes a simulated wearable-device workflow for development and testing.
+
+### Mock Device Kit workflow
+
+1. Open the Capture tab.
+2. Select **Pair Mock Glasses**.
+3. Select **Start** to initiate the simulated session.
+4. Choose an available scene:
+   - HVAC Nameplate
+   - Basement Drywall Damage
+   - Electrical Breaker Panel
+5. Use the available device-state controls to simulate power, hinge, and wearing-state changes.
+6. Use the simulated disconnect control to exercise reconnection handling.
+
+The application distinguishes mock sample imagery from rear-camera imagery using evidence-source provenance.
+
+A physical Ray-Ban Meta device connection is not claimed by the mock workflow.
+
+### Voice command examples
+
+The application provides structured command parsing and a microphone/quick-command interface.
+
+Supported command formats include:
 
 **1. Nameplate capture**
 
@@ -176,7 +206,7 @@ Intended extraction fields include:
 - Manufacturer
 - Model number
 - Serial number
-- Manufacturing date
+- Manufacture date
 - Voltage and phase
 - Amperage or BTU
 - Refrigerant type
@@ -197,281 +227,317 @@ Intended structured fields include:
 - Risk
 - Recommended action
 
-**3. Technician note**
+**3. Inspection note**
 
 ```text
 note: Main breaker lug shows scorch marks
 ```
 
-Intended structured fields include:
+Intended structured note fields include:
 
 - Summary
 - Category
 - Safety hazard
-- Follow-up required
+- Follow-up requirement
 - Referenced components
 
-### Mock Device Kit
-
-The application provides a mock-device workflow for development without physical smart glasses.
-
-Available controls include:
-
-- Start
-- Pause
-- Stop
-- Sim Drop
-- Mock scene selection
-
-Mock scene images are identified separately from actual camera input.
-
-**Important:** The mock workflow is not proof of successful physical Ray-Ban Meta hardware integration.
+The Quick-Command interface provides an alternative input method when speech recognition is unavailable.
 
 ---
 
 ## 6. Image Quality Validation
 
-The application includes on-device image-quality checks before evidence processing.
+The application includes an on-device image-quality analysis component.
 
-The quality analyzer evaluates:
+The `ImageQualityAnalyzer` evaluates captured images using:
 
-- Blur using Laplacian variance.
-- Brightness using luma measurements.
-- Framing using edge-based analysis.
+- Laplacian variance for blur detection.
+- BT.601 luminance for brightness analysis.
+- Sobel-based analysis for framing assessment.
 
-Quality results are displayed on the Capture and Job & Estimate screens.
+Images that do not meet configured quality thresholds can be flagged for review or retake.
 
-Captured evidence can be retained locally even when subsequent AI processing fails.
+The quality-analysis implementation is intended to reduce unusable inspection evidence before AI processing.
+
+Threshold calibration against real-world Meta glasses camera images remains future work.
 
 ---
 
-## 7. AI-Based Evidence Extraction
+## 7. AI-Assisted Evidence Extraction
 
-FieldCapture integrates Gemini 3.8 Flash through Firebase AI Logic.
+The application integrates Firebase AI Logic with Gemini 3.8 Flash for multimodal field-evidence extraction.
 
-The model was selected for multimodal image understanding and structured extraction of field-inspection information from nameplate and damage photographs.
+The intended processing workflow is:
 
-The intended workflow is:
-
-1. Capture and save evidence.
-2. Submit the evidence image for AI processing.
-3. Extract structured fields.
+1. Capture and persist inspection evidence.
+2. Submit the image and relevant context for AI processing.
+3. Extract structured inspection information.
 4. Associate confidence information with extracted fields.
-5. Match extracted information against the 14-code estimate catalog.
-6. Allow technicians to review and retry extraction.
+5. Flag low-confidence information for review.
+6. Map supported findings to estimate-code candidates.
 
-### Current AI Limitation
+The extraction service includes structured-output handling and retry functionality.
 
-During testing, AI extraction timed out after 60 seconds and displayed a model availability / high-demand error.
+### Observed development result
 
-- Evidence photographs were retained locally.
-- Image-quality results were still displayed.
-- Structured extraction results and confidence scores were unavailable for affected captures.
-- Automatic estimate-line population could not be reliably demonstrated.
+During emulator testing, an AI extraction request timed out after approximately 60 seconds.
 
-The retry option allows another extraction attempt without capturing the photograph again.
+The captured evidence remained available in the application, but successful extraction and population of structured estimate fields could not be verified in that run.
 
-### AI Cost
-
-The application includes a cost and latency telemetry interface.
-
-A reliable per-job AI cost has not yet been established because successful extraction and token consumption were not demonstrated during the recorded tests.
-
-Actual cost depends on model pricing, input image processing, prompt tokens, output tokens and the number of extraction attempts.
-
-The displayed zero-token and zero-cost values should not be interpreted as measured successful processing.
+Therefore, successful end-to-end AI extraction is not claimed as a completed validation result.
 
 ---
 
-## 8. Job Records and Estimate Catalog
+## 8. Offline-First Data Persistence and Synchronization
 
-The Job & Estimate screen displays:
+The application uses Room for local evidence persistence and WorkManager for background synchronization.
 
-- Structured job record information.
-- Captured evidence.
-- Evidence identifiers.
-- AI extraction status.
-- Estimate line items.
-- Estimated scope total.
-- Retry AI Extraction.
-- Edit Codes.
+### Local persistence
 
-The application includes a 14-code estimate catalog intended to map extracted inspection information to relevant HVAC and electrical work items.
+Captured evidence is designed to be stored locally before AI extraction and synchronization.
 
-**Current limitation:** Because AI extraction is unreliable, automatic estimate-code population and total calculation have not been fully validated. The displayed $0.00 total in the tested session reflects the absence of populated estimate items, not a verified zero-cost job.
+The local database includes inspection evidence and synchronization-related entities.
 
----
+### Synchronization workflow
 
-## 9. Offline-First Synchronization
+The synchronization architecture includes:
 
-FieldCapture uses Room and WorkManager to support local evidence persistence and queued synchronization.
+- `SyncOutboxEntity`
+- Media upload operations
+- Job synchronization operations
+- Idempotency keys
+- WorkManager background execution
+- Retry handling with exponential backoff
+- Retrofit and OkHttp networking
 
-The intended synchronization workflow is:
+### Mock backend mode
 
-1. Save evidence locally.
-2. Create synchronization operations in the outbox.
-3. Upload media.
-4. Synchronize the job record.
-5. Retry transient failures using background work.
+The current development workflow includes a `LoopbackRestInterceptor` that simulates REST backend responses.
 
-The Sync Queue screen includes:
+The Sync Queue screen displayed successfully processed operations against the loopback mock server during development.
 
-- Pending and synchronized operation counts.
-- Sync Now.
-- Loopback Mock REST Server toggle.
-- Simulated HTTP 503 control.
-- Outbox operation details.
-- Idempotency keys.
+This demonstrates the mock synchronization workflow, not successful communication with a deployed production backend.
 
-### Current Backend Limitation
-
-The current application demonstrates synchronization through a **Loopback Mock REST Server**.
-
-The displayed synchronized operations represent processing by this mock server.
-
-A production backend, real cloud media storage and end-to-end synchronization with a deployed REST service have not been validated.
+A production REST backend and actual cloud media storage remain integration work.
 
 ---
 
-## 10. Evaluation and Telemetry
+## 9. Evaluation and Cost Telemetry
 
-The Evaluation & Cost screen provides:
+The application includes an evaluation and telemetry interface.
 
-- Capture-quality telemetry.
-- AI latency information.
-- Synchronization latency.
-- Token usage.
-- Estimated AI cost.
-- A 42-frame batch evaluation interface.
-- Photo import functionality.
-- Evaluation controls.
+The evaluation infrastructure contains:
 
-The evaluation engine includes a bundled frame pool and synthetic perturbations for development and testing.
+- A 42-frame sample evaluation pool.
+- Synthetic image perturbations.
+- Ground-truth evaluation components.
+- AI latency and token telemetry.
+- Estimated inference-cost tracking.
+- Photo import functionality for additional evaluation data.
 
-### Evaluation Status
+### Evaluation status
 
-A complete evaluation using at least 40 independently imported real-world field photographs has not been demonstrated.
+The bundled evaluation pool is intended for development and testing.
 
-The current screenshots show zero imported photos, zero AI tokens and zero AI latency measurements in the evaluation dashboard.
+During the observed emulator session:
 
-These values represent the absence of successful measured AI evaluation in that session. They are not accuracy or performance benchmarks.
+- The 42-frame sample pool was displayed.
+- No real photos had been imported through the Photo Picker.
+- AI latency and token usage were displayed as zero.
+- Real-world per-field accuracy was not established.
 
-A complete real-world evaluation should include:
+The required real-world evaluation dataset has not yet been completed.
+
+To complete the evaluation, genuine inspection images should be collected and imported, including:
 
 - At least 10 nameplate images.
 - At least 10 low-light images.
-- Ground-truth annotations.
-- Per-field extraction accuracy.
-- The five worst-performing extraction cases.
+- Additional field-inspection images to reach at least 40 total frames.
+
+The images should be annotated against the ground-truth template before calculating extraction accuracy and identifying the five worst-performing cases.
+
+Synthetic samples must not be represented as real-world inspection results.
 
 ---
 
-## 11. Known Limitations and Testing Status
+## 10. Build and Test Results
 
-The following limitations are explicitly documented based on the current implementation and testing.
+The following checks were performed locally during development.
 
-| Area | Current status |
-|---|---|
-| Android debug build | Successfully builds |
-| Application launch | Successfully launched |
-| Capture interface | Demonstrated |
-| Image-quality indicators | Demonstrated |
-| Evidence persistence | Demonstrated in the Job & Estimate screen |
-| Voice command system | Implemented; complete real-world validation pending |
-| AI extraction | Timed out during testing |
-| Automatic estimate generation | Not reliably validated |
-| Synchronization | Demonstrated with Loopback Mock REST Server |
-| Production backend | Not integrated or validated |
-| 40-frame real-world evaluation | Not completed |
-| AI cost measurement | Not established |
-| Physical Ray-Ban Meta hardware | Not validated end-to-end |
+### Android debug build
 
-### Additional Hardware Limitations
+Command:
 
-Physical Ray-Ban Meta glasses pairing, real-world Bluetooth/Wi-Fi P2P connectivity, physical device streaming and camera capture have not been fully validated.
+```powershell
+.\gradlew.bat :app:assembleDebug
+```
 
-The mock-device workflow is available for development and demonstration.
+Result:
+
+**BUILD SUCCESSFUL**
+
+The Android debug APK compiled successfully.
+
+### JVM unit tests
+
+Command:
+
+```powershell
+.\gradlew.bat :app:testDebugUnitTest
+```
+
+Result:
+
+**BUILD SUCCESSFUL**
+
+The generated test-result XML files reported:
+
+| Test suite | Total | Passed | Failed | Errors | Skipped |
+|---|---:|---:|---:|---:|---:|
+| `ExampleUnitTest` | 14 | 14 | 0 | 0 | 0 |
+| `ExampleRobolectricTest` | 1 | 0 | 0 | 0 | 1 |
+| **Total** | **15** | **14** | **0** | **0** | **1** |
+
+All 14 tests in `ExampleUnitTest` passed.
+
+One Robolectric test was skipped. It is marked with `@Ignore` because the Robolectric Android runtime dependency requires external Maven downloads that were unavailable in the original offline development environment.
+
+### Testing scope
+
+The unit-test suite includes coverage for repository functionality such as:
+
+- Voice-command parsing.
+- Command extensibility.
+- Image-quality thresholds.
+- Evaluation logic.
+- Gemini response/schema handling.
+- Duplicate-evidence prevention.
+- AI retry handling.
+- Synchronization recovery.
+- Ground-truth evaluation.
+
+Passing unit tests demonstrate the behavior covered by those tests. They do not establish complete physical-device, live-AI, or production-backend functionality.
+
+### Manual verification notes
+
+The application was launched in the Android Emulator during development.
+
+The emulator subsequently experienced display-rendering problems, which prevented consistent final UI verification.
+
+AI extraction timeout and mock-backend behavior were also observed during application testing.
 
 ---
 
-## 12. Assumptions
+## 11. Known Limitations
 
-The following assumptions were made where the assignment requirements did not specify implementation details:
+The following items remain unverified or incomplete:
 
-1. The application uses a mock-device workflow when physical Meta glasses are unavailable.
-2. A captured photograph must be saved locally before AI processing so that extraction failures do not result in evidence loss.
-3. Image-quality validation should happen before submitting evidence for AI extraction.
-4. AI-extracted information should be reviewable by a technician before being used for an estimate.
-5. The 14-code catalog provides an initial set of HVAC and electrical estimate categories.
-6. A loopback REST server is used for development and synchronization testing until a production backend is available.
-7. Synthetic evaluation frames are development aids and are not substitutes for independently collected real-world evaluation images.
+### 1. Physical Ray-Ban Meta Glasses
+
+The development workflow uses Mock Device Kit simulation.
+
+Real Bluetooth/Wi-Fi P2P pairing, physical glasses streaming, and camera capture have not been verified on hardware.
+
+Physical Wearables Developer Portal credentials, including `APPLICATION_ID` and `CLIENT_TOKEN`, must be configured and validated for hardware integration.
+
+### 2. Production Backend
+
+The current synchronization workflow uses `LoopbackRestInterceptor` in mock mode.
+
+A deployed REST backend and production media-storage integration have not been verified.
+
+### 3. Live AI Extraction
+
+A Gemini extraction request timed out during observed emulator testing.
+
+Successful structured extraction and estimate population remain unverified.
+
+### 4. Real-World Evaluation Dataset
+
+The bundled 42-frame evaluation pool includes sample imagery and synthetic perturbations.
+
+The required 40 or more genuine field-inspection images, ground-truth annotations, accuracy measurements, and five worst-case failure analyses remain pending.
+
+### 5. Speech Recognition
+
+Speech recognition depends on the Android device's available speech services and runtime permissions.
+
+The Quick-Command interface provides an alternative input method. Full voice-command execution through physical AI glasses has not been verified.
+
+### 6. Emulator Rendering
+
+The Android Emulator experienced display-rendering issues during the final development checks.
+
+The debug build and unit-test execution succeeded, but consistent final emulator UI validation was not achieved.
 
 ---
 
-## 13. Development Tools and AI Assistance
+## 12. Future Development Plan
+
+### Phase 1 — Hardware Integration and Data Collection
+
+- Configure Meta Wearables Developer Portal credentials.
+- Validate physical device pairing and session lifecycle.
+- Test streaming and photo capture on Ray-Ban Meta glasses.
+- Collect at least 40 genuine inspection images.
+- Complete ground-truth annotations.
+- Evaluate live Gemini extraction accuracy.
+
+### Phase 2 — Backend and Production Readiness
+
+- Connect the REST API to a deployed backend.
+- Implement production media storage and upload handling.
+- Validate offline-to-online synchronization.
+- Calibrate image-quality thresholds using real camera images.
+- Measure speech recognition performance in noisy environments.
+- Perform hardware testing for battery, thermal behavior, and connection stability.
+- Validate release-mode Firebase App Check configuration.
+
+---
+
+## 13. Documentation Deliverables
+
+The project documentation and supporting deliverables are intended to include:
+
+- Evaluation report.
+- Dataset guide and ground-truth template.
+- Meta Glasses and DAT 1.0 research memo.
+- Job record schema and JSON templates.
+- Demonstration video or demo script (maximum five minutes).
+
+Only completed and genuinely verified deliverables should be presented as finished.
+
+---
+
+## 14. Development Tools and AI Assistance
 
 The project was developed using modern Android development tools and AI-assisted workflows.
 
-**Development Environment**
-- Android Studio — Android application development, debugging, emulator testing and Gradle builds.
+### Development environment
+
+- Android Studio — Android application development, debugging, emulator testing, and Gradle builds.
 - Kotlin and Jetpack Compose — Application implementation and user interface.
 - Git and GitHub — Version control and source-code management.
 
-**AI-Assisted Development**
-- Google AI Studio and Gemini — Assisted with code exploration, implementation, debugging and test-case development.
-- ChatGPT — Used for technical discussions, troubleshooting, code reviews, architecture guidance and documentation.
+### AI-assisted development
 
-**AI Integration Within the Application**
+- Google AI Studio and Gemini — Assisted with code exploration, implementation, debugging, and test-case development.
+- ChatGPT — Used for technical discussions, troubleshooting, code reviews, architecture guidance, and documentation.
+
+### AI integration within the application
 
 Gemini 3.8 Flash is integrated through Firebase AI Logic for multimodal evidence extraction and structured field-inspection data processing.
 
 AI-assisted development tools and the AI model integrated into the application serve different purposes.
 
-## 14. Future Improvements
-
-### Hardware and Wearable Integration
-- Validate physical Ray-Ban Meta pairing and camera streaming.
-- Verify DAT permissions and session recovery on hardware.
-- Test real-world field capture conditions.
-
-### AI and Estimation
-- Resolve Firebase App Check and AI extraction availability issues.
-- Validate structured extraction across real nameplate and damage photographs.
-- Measure per-field accuracy and confidence calibration.
-- Validate estimate-code matching and total calculations.
-- Measure actual token usage and cost per job.
-
-### Backend and Synchronization
-- Replace the loopback REST server with a deployed backend.
-- Configure production media storage.
-- Validate upload recovery and idempotency under real network interruptions.
-
-### Evaluation
-- Collect and annotate at least 40 real field photographs.
-- Complete the evaluation report.
-- Identify and analyze the five worst extraction failures.
-- Measure real-world latency and accuracy.
-
 ---
 
-## 15. Documentation Deliverables
+## 15. Conclusion
 
-The project is intended to include:
+FieldCapture provides an Android-based foundation for hands-free field inspection workflows, combining wearable-device integration architecture, structured capture commands, image-quality analysis, local persistence, AI extraction integration, and synchronization infrastructure.
 
-- Evaluation Report.
-- Dataset Guide and Ground Truth Template.
-- Meta Glasses and DAT 1.0 Research Memo.
-- Job Record Schema and Templates.
-- Five-Minute Demo Script.
+The project includes a working Android debug build and a locally executed unit-test suite with 14 passing tests.
 
-The completion status of these supporting deliverables should be checked separately from the Android application's implementation status.
+Further work is required to validate physical AI glasses, successful live AI extraction, production backend synchronization, and real-world evaluation performance.
 
----
-
-## 16. Conclusion
-
-FieldCapture provides an Android foundation for hands-free field inspection, evidence capture, image-quality validation, structured job records and offline-first synchronization.
-
-The current build demonstrates the application interface and core evidence-management workflow. AI extraction, production backend integration, physical wearable validation and complete real-world evaluation remain areas for further development.
-
-The project documents these limitations explicitly to distinguish implemented components from functionality that has been fully validated.
+The implementation is designed to provide a foundation for extending the prototype into a field-ready inspection application.
