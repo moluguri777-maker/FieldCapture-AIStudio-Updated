@@ -542,6 +542,8 @@ The project documentation and supporting deliverables are intended to include:
 - Job record schema and JSON templates.
 - Demonstration video (maximum five minutes).
 - Demo script and recording notes (supporting documentation).
+-  Demo video link: Refer to [`demo_script.md`](demo_script.md) in the `docs/` directory.
+
 
 Only completed and genuinely verified deliverables should be presented as finished.
 
