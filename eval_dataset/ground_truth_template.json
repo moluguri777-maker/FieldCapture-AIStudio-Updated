@@ -1,34 +1,38 @@
+
 {
   "datasetStatus": "TEMPLATE_ONLY_REAL_FIELD_COLLECTION_PENDING",
+  "datasetType": "GROUND_TRUTH_TEMPLATE",
   "requirements": {
     "minimumTotalFrames": 40,
     "minimumNameplates": 10,
     "minimumLowLightFrames": 10
   },
-  "instructions": "Replace these example entries with verified labels from real field inspection photos before computing final real-world per-field accuracy via EvalGroundTruthEvaluator.",
+  "instructions": "These entries are placeholders only. Replace them with genuine field inspection images and independently verified ground-truth labels. Do not use synthetic perturbations as real-world ground truth. Do not report real-world accuracy until predictions have been evaluated against verified labels.",
   "samples": [
     {
       "sampleId": "SAMPLE-NP-01",
       "imageFileName": "replace_with_real_nameplate_01.jpg",
+      "sourceKind": "PhotoPicker",
       "commandType": "NAMEPLATE",
       "isLowLight": false,
       "expectedFields": {
-        "equipmentType": "HVAC Condenser",
-        "manufacturer": "Carrier",
-        "modelNumber": "REPLACE_WITH_VERIFIED_MODEL",
-        "serialNumber": "REPLACE_WITH_VERIFIED_SERIAL",
-        "manufactureDate": "REPLACE_WITH_VERIFIED_DATE"
+        "equipmentType": "REPLACE_WITH_VERIFIED_VALUE",
+        "manufacturer": "REPLACE_WITH_VERIFIED_VALUE",
+        "modelNumber": "REPLACE_WITH_VERIFIED_VALUE",
+        "serialNumber": "REPLACE_WITH_VERIFIED_VALUE",
+        "manufactureDate": "REPLACE_WITH_VERIFIED_VALUE"
       }
     },
     {
       "sampleId": "SAMPLE-DMG-01",
       "imageFileName": "replace_with_real_lowlight_damage_01.jpg",
+      "sourceKind": "PhotoPicker",
       "commandType": "DAMAGE",
       "isLowLight": true,
       "expectedFields": {
-        "room": "Basement",
-        "surface": "Drywall",
-        "damageType": "Water stain",
+        "room": "REPLACE_WITH_VERIFIED_VALUE",
+        "surface": "REPLACE_WITH_VERIFIED_VALUE",
+        "damageType": "REPLACE_WITH_VERIFIED_VALUE",
         "estimatedAreaSqFt": "REPLACE_WITH_MEASURED_AREA"
       }
     }
