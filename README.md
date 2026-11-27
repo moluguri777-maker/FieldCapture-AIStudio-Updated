@@ -286,6 +286,18 @@ The captured evidence remained available in the application, but successful extr
 
 Therefore, successful end-to-end AI extraction is not claimed as a completed validation result.
 
+
+**Additional observed Firebase App Check error:**
+
+During the recorded demonstration, the Job & Estimate screen also displayed:
+
+`Firebase App Check token is invalid (Too many attempts)`
+
+The extraction request consequently failed, and successful live Gemini inference could not be demonstrated. The captured evidence remained available locally, but no estimate line items were generated and the displayed estimated total remained `$0.00`.
+
+Firebase App Check authentication and successful live AI extraction require further validation.
+
+
 ---
 
 ## 8. Offline-First Data Persistence and Synchronization
@@ -319,6 +331,14 @@ The Sync Queue screen displayed successfully processed operations against the lo
 This demonstrates the mock synchronization workflow, not successful communication with a deployed production backend.
 
 A production REST backend and actual cloud media storage remain integration work.
+
+
+### Recorded demonstration results
+
+The submitted emulator demonstration showed two synchronization operations marked `SYNCED` against the loopback mock REST server.
+
+This demonstrates the locally simulated synchronization workflow only. It does not establish successful production-server uploads, cloud media persistence, or end-to-end synchronization with a deployed backend.
+
 
 ---
 
@@ -357,6 +377,23 @@ To complete the evaluation, genuine inspection images should be collected and im
 The images should be annotated against the ground-truth template before calculating extraction accuracy and identifying the five worst-performing cases.
 
 Synthetic samples must not be represented as real-world inspection results.
+
+
+### Evaluation report source-count discrepancy
+
+During the recorded demonstration, the evaluation interface displayed zero photos imported through Android Photo Picker.
+
+However, the exported evaluation report contained:
+
+- `realFrameCount: 1`
+- `syntheticFrameCount: 41`
+
+The origin and classification of the additional frame have not yet been independently verified. It may be associated with a session-captured frame, but this must be checked against the source-classification logic in `BatchEvaluationEngine`.
+
+Therefore, the exported report's source counts should not be interpreted as evidence of one genuine physical field photograph.
+
+The current evaluation is presented as a synthetic CV quality-check benchmark. Real-world field accuracy remains unmeasured.
+
 
 ---
 
@@ -503,7 +540,8 @@ The project documentation and supporting deliverables are intended to include:
 - Dataset guide and ground-truth template.
 - Meta Glasses and DAT 1.0 research memo.
 - Job record schema and JSON templates.
-- Demonstration video or demo script (maximum five minutes).
+- Demonstration video (maximum five minutes).
+- Demo script and recording notes (supporting documentation).
 
 Only completed and genuinely verified deliverables should be presented as finished.
 
