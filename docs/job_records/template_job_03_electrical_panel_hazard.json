@@ -1,10 +1,11 @@
+
 {
-  "_templateNotice": "EXAMPLE SCHEMA TEMPLATE ONLY (NOT a real physical walkthrough recording). Replace with app-exported JSON after live session capture.",
+  "_templateNotice": "ILLUSTRATIVE MOCK TEMPLATE ONLY. This is not a real field walkthrough, customer record, physical device capture, or measured AI extraction result.",
   "schemaVersion": "1.0",
-  "jobId": "JOB-2026-4105",
-  "claimNumber": "CLM-PROP-88430",
-  "propertyAddress": "908 Barton Springs Blvd, Austin TX 78704",
-  "inspectorName": "Alex Mercer (Field Adj.)",
+  "jobId": "JOB-TEMPLATE-4105",
+  "claimNumber": "CLM-TEMPLATE-88430",
+  "propertyAddress": "Illustrative address - Austin, TX",
+  "inspectorName": "Sample Inspector (Illustrative)",
   "createdAtEpochMs": 1764103200000,
   "sessionSummary": {
     "totalCaptures": 2,
@@ -30,18 +31,53 @@
         "darkPixelRatio": 0.04,
         "clippedPixelRatio": 0.01,
         "issues": [],
-        "summaryMessage": "PASS • Sharpness 1180 • Luma 122 • Framing 81%",
+        "summaryMessage": "Illustrative sample quality result",
         "latencyMs": 15,
         "userOverridden": false
       },
       "extractedFields": {
-        "room": { "value": "Utility", "confidence": 0.95, "needsReview": false, "editedByUser": false },
-        "surface": { "value": "Main Breaker Panel", "confidence": 0.93, "needsReview": false, "editedByUser": false },
-        "damageType": { "value": "Thermal scorch at main lug", "confidence": 0.90, "needsReview": false, "editedByUser": false },
-        "severity": { "value": "SEVERE", "confidence": 0.92, "needsReview": false, "editedByUser": false },
-        "estimatedAreaSqFt": { "value": "1 panel assembly", "confidence": 0.84, "needsReview": false, "editedByUser": false },
-        "moistureOrThermalRisk": { "value": "High electrical arc/fire hazard at bus lug", "confidence": 0.94, "needsReview": false, "editedByUser": false },
-        "recommendedAction": { "value": "Isolate utility main and dispatch licensed master electrician", "confidence": 0.93, "needsReview": false, "editedByUser": false }
+        "room": {
+          "value": "Utility",
+          "confidence": 0.95,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "surface": {
+          "value": "Main Breaker Panel",
+          "confidence": 0.93,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "damageType": {
+          "value": "Thermal scorch at main lug",
+          "confidence": 0.90,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "severity": {
+          "value": "SEVERE",
+          "confidence": 0.92,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "estimatedAreaSqFt": {
+          "value": "1 panel assembly",
+          "confidence": 0.84,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "moistureOrThermalRisk": {
+          "value": "High electrical arc/fire hazard at bus lug",
+          "confidence": 0.94,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "recommendedAction": {
+          "value": "Isolate utility main and dispatch licensed master electrician",
+          "confidence": 0.93,
+          "needsReview": false,
+          "editedByUser": false
+        }
       },
       "overallConfidence": 0.9157,
       "estimateCodes": ["ELC-PNL-08", "GEN-SAF-14"]
@@ -54,7 +90,7 @@
       "room": null,
       "surface": null,
       "evidenceSource": "VOICE_NOTE_ONLY",
-      "isMockOrSample": false,
+      "isMockOrSample": true,
       "remoteMediaUrl": null,
       "qualityCheck": {
         "passed": true,
@@ -64,16 +100,41 @@
         "darkPixelRatio": 0.0,
         "clippedPixelRatio": 0.0,
         "issues": [],
-        "summaryMessage": "Voice Note (audio-only)",
+        "summaryMessage": "Illustrative audio-only note",
         "latencyMs": 1,
         "userOverridden": false
       },
       "extractedFields": {
-        "summary": { "value": "Utility main isolated and tagged out pending breaker panel replacement.", "confidence": 0.94, "needsReview": false, "editedByUser": false },
-        "category": { "value": "Safety", "confidence": 0.91, "needsReview": false, "editedByUser": false },
-        "safetyHazard": { "value": "true - energized panel thermal fault locked out", "confidence": 0.95, "needsReview": false, "editedByUser": false },
-        "followUpRequired": { "value": "Licensed electrician inspection prior to re-energizing", "confidence": 0.93, "needsReview": false, "editedByUser": false },
-        "referencedComponents": { "value": "Main breaker panel, utility shutoff", "confidence": 0.90, "needsReview": false, "editedByUser": false }
+        "summary": {
+          "value": "Utility main isolated and tagged out pending breaker panel replacement.",
+          "confidence": 0.94,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "category": {
+          "value": "Safety",
+          "confidence": 0.91,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "safetyHazard": {
+          "value": "true - energized panel thermal fault locked out",
+          "confidence": 0.95,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "followUpRequired": {
+          "value": "Licensed electrician inspection prior to re-energizing",
+          "confidence": 0.93,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "referencedComponents": {
+          "value": "Main breaker panel, utility shutoff",
+          "confidence": 0.90,
+          "needsReview": false,
+          "editedByUser": false
+        }
       },
       "overallConfidence": 0.926,
       "estimateCodes": ["GEN-SAF-14"]
@@ -83,7 +144,7 @@
     {
       "code": "ELC-PNL-08",
       "trade": "Electrical",
-      "description": "Main Service Panel Inspection & Breaker Replacement",
+      "description": "Main Service Panel Inspection and Breaker Replacement",
       "unit": "ea",
       "quantity": 1.0,
       "unitRateUsd": 685.0,
@@ -94,7 +155,7 @@
     {
       "code": "GEN-SAF-14",
       "trade": "General Safety",
-      "description": "Emergency Make-Safe & Utility Isolation",
+      "description": "Emergency Make-Safe and Utility Isolation",
       "unit": "hr",
       "quantity": 2.0,
       "unitRateUsd": 165.0,
