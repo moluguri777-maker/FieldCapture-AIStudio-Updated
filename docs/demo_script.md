@@ -9,6 +9,8 @@
 
 ---
 
+##Video Link : https://drive.google.com/file/d/1vU329f9Enk2kRIsadytVrNfM6uS27aMM/view?usp=sharing
+
 ## 0:00 – 0:40 | Application Introduction and Capture Interface
 
 **Show:** Launch FieldCapture and open the Capture screen.
