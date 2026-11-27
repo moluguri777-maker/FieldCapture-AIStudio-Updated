@@ -1,7 +1,11 @@
+
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fieldcapture.local/schemas/job-record-v1.0.json",
   "title": "FieldCapture JobRecordJson v1.0",
+  "description": "Schema for structured FieldCapture inspection job records.",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "schemaVersion",
     "jobId",
@@ -15,25 +19,61 @@
     "telemetrySummary"
   ],
   "properties": {
-    "schemaVersion": { "type": "string", "const": "1.0" },
-    "jobId": { "type": "string" },
-    "claimNumber": { "type": "string" },
-    "propertyAddress": { "type": "string" },
-    "inspectorName": { "type": "string" },
-    "createdAtEpochMs": { "type": "integer" },
+    "_templateNotice": {
+      "type": "string",
+      "description": "Optional disclosure identifying an illustrative template."
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "jobId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claimNumber": {
+      "type": "string",
+      "minLength": 1
+    },
+    "propertyAddress": {
+      "type": "string"
+    },
+    "inspectorName": {
+      "type": "string"
+    },
+    "createdAtEpochMs": {
+      "type": "integer",
+      "minimum": 0
+    },
     "sessionSummary": {
       "type": "object",
-      "required": ["totalCaptures", "disconnectsRecovered", "avgQualityPassRate"],
+      "additionalProperties": false,
+      "required": [
+        "totalCaptures",
+        "disconnectsRecovered",
+        "avgQualityPassRate"
+      ],
       "properties": {
-        "totalCaptures": { "type": "integer", "minimum": 0 },
-        "disconnectsRecovered": { "type": "integer", "minimum": 0 },
-        "avgQualityPassRate": { "type": "number", "minimum": 0, "maximum": 1 }
+        "totalCaptures": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "disconnectsRecovered": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "avgQualityPassRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
       }
     },
     "captures": {
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "captureId",
           "commandType",
@@ -47,13 +87,33 @@
           "estimateCodes"
         ],
         "properties": {
-          "captureId": { "type": "string" },
-          "commandType": { "enum": ["NAMEPLATE", "DAMAGE", "NOTE"] },
-          "timestampEpochMs": { "type": "integer" },
-          "rawVoiceTranscript": { "type": "string" },
-          "room": { "type": ["string", "null"] },
-          "surface": { "type": ["string", "null"] },
+          "captureId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commandType": {
+            "type": "string",
+            "enum": [
+              "NAMEPLATE",
+              "DAMAGE",
+              "NOTE"
+            ]
+          },
+          "timestampEpochMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "rawVoiceTranscript": {
+            "type": "string"
+          },
+          "room": {
+            "type": ["string", "null"]
+          },
+          "surface": {
+            "type": ["string", "null"]
+          },
           "evidenceSource": {
+            "type": "string",
             "enum": [
               "MOCK_DEVICE_KIT_SCENE",
               "ANDROID_REAR_CAMERA_MOCK",
@@ -63,10 +123,114 @@
               "UNKNOWN"
             ]
           },
-          "isMockOrSample": { "type": "boolean" },
-          "remoteMediaUrl": { "type": ["string", "null"] },
-          "overallConfidence": { "type": "number", "minimum": 0, "maximum": 1 },
-          "estimateCodes": { "type": "array", "items": { "type": "string" } }
+          "isMockOrSample": {
+            "type": "boolean"
+          },
+          "remoteMediaUrl": {
+            "type": ["string", "null"]
+          },
+          "qualityCheck": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "passed",
+              "blurScore",
+              "brightnessScore",
+              "framingScore",
+              "darkPixelRatio",
+              "clippedPixelRatio",
+              "issues",
+              "summaryMessage",
+              "latencyMs",
+              "userOverridden"
+            ],
+            "properties": {
+              "passed": {
+                "type": "boolean"
+              },
+              "blurScore": {
+                "type": "number",
+                "minimum": 0
+              },
+              "brightnessScore": {
+                "type": "number",
+                "minimum": 0
+              },
+              "framingScore": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "darkPixelRatio": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "clippedPixelRatio": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "issues": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "summaryMessage": {
+                "type": "string"
+              },
+              "latencyMs": {
+                "type": "number",
+                "minimum": 0
+              },
+              "userOverridden": {
+                "type": "boolean"
+              }
+            }
+          },
+          "extractedFields": {
+            "type": "object",
+            "description": "Variable structured fields extracted for the capture type.",
+            "additionalProperties": {
+              "type": "object",
+              "required": [
+                "value",
+                "confidence",
+                "needsReview",
+                "editedByUser"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "type": ["string", "number", "boolean", "null"]
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "needsReview": {
+                  "type": "boolean"
+                },
+                "editedByUser": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "overallConfidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "estimateCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
         }
       }
     },
@@ -74,12 +238,96 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["code", "trade", "description", "unit", "quantity", "unitRateUsd", "extendedUsd", "confidence", "sourceCaptureId"]
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "trade",
+          "description",
+          "unit",
+          "quantity",
+          "unitRateUsd",
+          "extendedUsd",
+          "confidence",
+          "sourceCaptureId"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "trade": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0
+          },
+          "unitRateUsd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "extendedUsd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "sourceCaptureId": {
+            "type": "string"
+          }
+        }
       }
     },
     "telemetrySummary": {
       "type": "object",
-      "required": ["totalRequests", "avgQualityLatencyMs", "avgAiLatencyMs", "avgSyncLatencyMs", "totalPromptTokens", "totalOutputTokens", "totalEstimatedCostUsd"]
+      "additionalProperties": false,
+      "required": [
+        "totalRequests",
+        "avgQualityLatencyMs",
+        "avgAiLatencyMs",
+        "avgSyncLatencyMs",
+        "totalPromptTokens",
+        "totalOutputTokens",
+        "totalEstimatedCostUsd"
+      ],
+      "properties": {
+        "totalRequests": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "avgQualityLatencyMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "avgAiLatencyMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "avgSyncLatencyMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "totalPromptTokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "totalOutputTokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "totalEstimatedCostUsd": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
     }
   }
 }
