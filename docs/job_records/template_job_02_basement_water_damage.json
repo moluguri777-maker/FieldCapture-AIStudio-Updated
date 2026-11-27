@@ -1,10 +1,11 @@
+
 {
-  "_templateNotice": "EXAMPLE SCHEMA TEMPLATE ONLY (NOT a real physical walkthrough recording). Replace with app-exported JSON after live session capture.",
+  "_templateNotice": "ILLUSTRATIVE MOCK TEMPLATE ONLY. This is not a real field walkthrough, customer record, physical device capture, or measured AI extraction result.",
   "schemaVersion": "1.0",
-  "jobId": "JOB-2026-4091",
-  "claimNumber": "CLM-PROP-88419",
-  "propertyAddress": "712 Cedar Creek Ct, Austin TX 78745",
-  "inspectorName": "Alex Mercer (Field Adj.)",
+  "jobId": "JOB-TEMPLATE-4091",
+  "claimNumber": "CLM-TEMPLATE-88419",
+  "propertyAddress": "Illustrative address - Austin, TX",
+  "inspectorName": "Sample Inspector (Illustrative)",
   "createdAtEpochMs": 1764099600000,
   "sessionSummary": {
     "totalCaptures": 1,
@@ -30,28 +31,67 @@
         "darkPixelRatio": 0.05,
         "clippedPixelRatio": 0.0,
         "issues": [],
-        "summaryMessage": "PASS • Sharpness 840 • Luma 114 • Framing 74%",
+        "summaryMessage": "Illustrative sample quality result",
         "latencyMs": 16,
         "userOverridden": false
       },
       "extractedFields": {
-        "room": { "value": "Basement", "confidence": 0.96, "needsReview": false, "editedByUser": false },
-        "surface": { "value": "Drywall", "confidence": 0.94, "needsReview": false, "editedByUser": false },
-        "damageType": { "value": "Water stain & bubbling paint", "confidence": 0.91, "needsReview": false, "editedByUser": false },
-        "severity": { "value": "MODERATE", "confidence": 0.87, "needsReview": false, "editedByUser": false },
-        "estimatedAreaSqFt": { "value": "32 sq ft", "confidence": 0.76, "needsReview": true, "editedByUser": false },
-        "moistureOrThermalRisk": { "value": "Active moisture intrusion risk; check behind stud bay", "confidence": 0.85, "needsReview": false, "editedByUser": false },
-        "recommendedAction": { "value": "Flood-cut damaged drywall, set dehumidifiers, prime & repaint", "confidence": 0.89, "needsReview": false, "editedByUser": false }
+        "room": {
+          "value": "Basement",
+          "confidence": 0.96,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "surface": {
+          "value": "Drywall",
+          "confidence": 0.94,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "damageType": {
+          "value": "Water stain and bubbling paint",
+          "confidence": 0.91,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "severity": {
+          "value": "MODERATE",
+          "confidence": 0.87,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "estimatedAreaSqFt": {
+          "value": "32 sq ft (illustrative estimate)",
+          "confidence": 0.76,
+          "needsReview": true,
+          "editedByUser": false
+        },
+        "moistureOrThermalRisk": {
+          "value": "Possible moisture intrusion; inspection behind wall recommended",
+          "confidence": 0.85,
+          "needsReview": false,
+          "editedByUser": false
+        },
+        "recommendedAction": {
+          "value": "Illustrative recommendation: assess moisture, dry affected area, repair drywall, and repaint",
+          "confidence": 0.89,
+          "needsReview": false,
+          "editedByUser": false
+        }
       },
       "overallConfidence": 0.8828,
-      "estimateCodes": ["WTR-DRY-01", "DRY-RPL-02", "PNT-PRM-03"]
+      "estimateCodes": [
+        "WTR-DRY-01",
+        "DRY-RPL-02",
+        "PNT-PRM-03"
+      ]
     }
   ],
   "estimateLineItems": [
     {
       "code": "WTR-DRY-01",
       "trade": "Water Mitigation",
-      "description": "Structural Drying & Dehumidification Setup",
+      "description": "Illustrative structural drying and dehumidification setup",
       "unit": "day",
       "quantity": 3.0,
       "unitRateUsd": 145.0,
@@ -62,7 +102,7 @@
     {
       "code": "DRY-RPL-02",
       "trade": "Drywall",
-      "description": "Drywall Removal & 1/2-in Replacement + Tape/Float",
+      "description": "Illustrative drywall removal and replacement",
       "unit": "sq ft",
       "quantity": 32.0,
       "unitRateUsd": 9.75,
@@ -72,8 +112,8 @@
     },
     {
       "code": "PNT-PRM-03",
-      "trade": "Paint & Finish",
-      "description": "Stain-Blocking Primer & Two-Coat Interior Paint",
+      "trade": "Paint and Finish",
+      "description": "Illustrative stain-blocking primer and interior painting",
       "unit": "sq ft",
       "quantity": 64.0,
       "unitRateUsd": 3.4,
